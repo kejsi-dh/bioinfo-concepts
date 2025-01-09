@@ -2,34 +2,34 @@ import numpy as np
 
 def submatrix(a, b, v, u, match, mismatch):
     # sequence lengths
-    I = len(a)
-    J = len(b)
+    submatrix.I = len(a)
+    submatrix.J = len(b)
 
     # size of sub matrix
-    r = J + 1
-    c = I + 1
+    r = submatrix.J + 1
+    c = submatrix.I + 1
 
     S = np.zeros((r,c), dtype=int)
-    E = np.zeros((r,c), dtype=int)
-    F = np.zeros((r,c), dtype=int)
+    submatrix.E = np.zeros((r,c), dtype=int)
+    submatrix.F = np.zeros((r,c), dtype=int)
 
     # initialization
     S[0,0] = 0
     for i in range (0,r):
-      E[i,0] = v+u * i
-      F[i,0] = -10**6
+      submatrix.E[i,0] = v+u * i
+      submatrix.F[i,0] = -10**6
 
     for j in range (0,c):
-      F[0,j] = v+u * j
-      E[0,j] = -10**6
+      submatrix.F[0,j] = v+u * j
+      submatrix.E[0,j] = -10**6
 
     for i in range(1,r):
       for j in range(1,c):
-        E[i,j] = max(E[i-1,j] + u, S[i-1,j] + v + u)
-        F[i,j] = max(F[i,j-1] + u, S[i,j-1] + v + u)
+        submatrix.E[i,j] = max(submatrix.E[i-1,j] + u, S[i-1,j] + v + u)
+        submatrix.F[i,j] = max(submatrix.F[i,j-1] + u, S[i,j-1] + v + u)
         if(a[j-1] == b[i-1]):
-          S[i,j] = max(S[i-1, j-1] + match, E[i,j], F[i,j])
-        else: S[i,j] = max(S[i-1, j-1] + mismatch, E[i,j], F[i,j])
+          S[i,j] = max(S[i-1, j-1] + match, submatrix.E[i,j], submatrix.F[i,j])
+        else: S[i,j] = max(S[i-1, j-1] + mismatch, submatrix.E[i,j], submatrix.F[i,j])
 
     return S
 
